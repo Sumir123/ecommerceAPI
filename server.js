@@ -8,7 +8,7 @@ const app = express();
 //ROUTES
 const userRouter = require("./routes/user");
 const adminRouter = require("./routes/admin/user");
-
+const categoryRouter = require("./routes/category");
 
 env.config();
 
@@ -26,7 +26,7 @@ app.use(express.json());
 app.use("/public", express.static(path.join(__dirname, "uploads")));
 app.use("/api", userRouter);
 app.use("/api/admin", adminRouter);
-
+app.use("/api", categoryRouter);
 
 app.listen(process.env.PORT || 2000, () => {
   console.log(`server is running on port ${process.env.PORT}`);
