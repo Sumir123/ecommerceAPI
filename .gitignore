@@ -7,17 +7,3 @@ node_modules
 /dist
 /build
 package-lock.json
-
-
-/models/category.model.js
-/models/cart.model.js
-/models/product.model.js
-
-/controllers/category.controller.js
-/controllers/cart.controller.js
-/controllers/product.controller.js
-
-/routes/category.route.js
-/routes/cart.route.js
-/routes/product.route.js
-
