@@ -1,8 +1,5 @@
 const express = require("express");
-const {
-  addCategory,
-  getCategories,
-} = require("../controller/category");
+const { addCategory, getCategories } = require("../controller/category");
 const {
   requireSignin,
   adminMiddleware,
@@ -12,7 +9,6 @@ const shortid = require("shortid");
 const path = require("path");
 
 const multer = require("multer");
-
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
