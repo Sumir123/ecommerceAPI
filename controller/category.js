@@ -6,6 +6,10 @@ exports.addCategory = async (req, res) => {
   try {
     const { name, parentId } = req.body;
 
+    if (!name) {
+      return res.status(400).json({ message: "Category name is required" });
+    }
+
     // Check if the category already exists
     const existingCategory = await CategoryModel.findOne({ name });
 
@@ -16,13 +20,15 @@ exports.addCategory = async (req, res) => {
     const newCategoryData = {
       name,
       slug: `${slugify(name)}-${shortid.generate()}`,
-      imagePath: req.file
+      categoryImage: req.file
         ? process.env.API + "/public/" + req.file.filename
         : undefined,
       parentId,
     };
+    console.log(newCategoryData.categoryImage);
 
     const category = new CategoryModel(newCategoryData);
+    category.validate();
     await category.save();
 
     return res.status(201).json({ category });
