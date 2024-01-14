@@ -3,12 +3,6 @@ const User = require("../../models/user.model");
 
 exports.signup = async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
-    
-    if (user) {
-      return res.status(400).json({ message: "Admin already register" });
-    }
-
     const { firstName, lastName, username, email, password } = req.body;
 
     const _user = new User({
@@ -31,7 +25,7 @@ exports.signup = async (req, res) => {
 
 exports.signin = async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ email: req.body.email, role: "admin" });
 
     if (!user) {
       return res.status(400).json({ message: "Admin not found" });
@@ -41,7 +35,7 @@ exports.signin = async (req, res) => {
       const token = jwt.sign(
         { _id: user._id, role: user.role },
         process.env.JWT_SECRET,
-        { expiresIn: "1h" }
+        { expiresIn: "1d" }
       );
       const { _id, firstName, lastName, email, role, fullName } = user;
       res.status(200).json({

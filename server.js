@@ -34,5 +34,5 @@ app.use("/api", categoryRouter);
 app.use("/api", productRouter);
 
 app.listen(process.env.PORT || 2000, () => {
-  console.log(`server is running on port ${process.env.PORT}`);
+  console.log(`server is running on  http://localhost:${process.env.PORT}`);
 });

@@ -4,10 +4,13 @@ const {
   requireSignin,
   adminMiddleware,
 } = require("../common middleware/index");
-const router = express.Router();
 const shortid = require("shortid");
 const path = require("path");
 const multer = require("multer");
+const {
+  validateCategoryRequest,
+  isCategoryValid,
+} = require("../validatiors/category");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -19,14 +22,18 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+const router = express.Router();
 
 router.post(
   "/category/create",
   requireSignin,
   adminMiddleware,
   upload.single("categoryImage"),
+  validateCategoryRequest,
+  isCategoryValid,
   addCategory
 );
+
 router.get("/category/getcategory", getCategories);
 
 module.exports = router;

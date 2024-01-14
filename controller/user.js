@@ -3,12 +3,6 @@ const User = require("../models/user.model");
 
 exports.signup = async (req, res) => {
   try {
-    const existingUser = await User.findOne({ email: req.body.email });
-
-    if (existingUser) {
-      return res.status(400).json({ message: "User already registered" });
-    }
-
     const { firstName, lastName, username, email, password } = req.body;
     const user = new User({ firstName, lastName, email, password, username });
 
