@@ -15,6 +15,7 @@ const upload = multer({ storage });
 
 const handleMulterErrors = (err, req, res, next) => {
   if (err instanceof multer.MulterError) {
+    console.log(err);
     return res.status(400).json({ error: err.message, field: err.field });
   } else if (err) {
     console.error(err);
@@ -23,9 +24,18 @@ const handleMulterErrors = (err, req, res, next) => {
   next();
 };
 
-const uploadMiddleware = (fieldName) => (req, res, next) => {
-  const multerUpload = upload.single(fieldName);
-  multerUpload(req, res, (err) => handleMulterErrors(err, req, res, next));
-};
+const uploadMiddleware =
+  (fieldName, uploadType = "single") =>
+  (req, res, next) => {
+    if (uploadType === "single") {
+      const multerUpload = upload.single(fieldName);
+      multerUpload(req, res, (err) => handleMulterErrors(err, req, res, next));
+    } else if (uploadType === "array") {
+      const multerUpload = upload.array(fieldName);
+      multerUpload(req, res, (err) => handleMulterErrors(err, req, res, next));
+    } else {
+      return res.status(500).json({ error: "Invalid upload type" });
+    }
+  };
 
 module.exports = { uploadMiddleware };

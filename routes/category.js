@@ -16,7 +16,7 @@ router.post(
   "/category/create",
   requireSignin,
   adminMiddleware,
-  uploadMiddleware("categoryImage"),
+  uploadMiddleware("categoryImage", "single"),
   validateCategoryRequest,
   isCategoryValid,
   addCategory
